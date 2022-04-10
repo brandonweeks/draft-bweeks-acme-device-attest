@@ -1,20 +1,14 @@
 ---
-title: "Automated Certificate Management Environment (ACME) Attestation Statement Validation Extension"
-abbrev: "TODO - Abbreviation"
+title: "Automated Certificate Management Environment (ACME) Device Attestation Extension"
+abbrev: "ACME DA"
 category: std
+submissiontype: IETF
 
 docname: draft-bweeks-acme-device-attest-latest
 v: 3
-area: AREA
+area: Security
 workgroup: ACME Working Group
 keyword: Internet-Draft
-venue:
-  group: WG
-  type: Working Group
-  mail: acme@example.com
-  arch: https://example.com/WG
-  github: USER/REPO
-  latest: https://example.com/LATEST
 
 author:
  -
@@ -23,26 +17,125 @@ author:
     email: bweeks@google.com
 
 normative:
-
+  RFC4043:
+  RFC8555:
+  WebAuthn:
+    title: "Web Authentication: An API for accessing Public Key Credentials Level 2"
+    author:
+      -
+        fullname: Jeff Hodges
+        organization: Google
+        email: jdhodges@google.com
+      -
+        fullname: J.C. Jones
+        organization: Mozilla
+        email: jc@mozilla.com
+      -
+        fullname: Michael B. Jones
+        organization: Microsoft
+        email: mbj@microsoft.com
+      -
+        fullname: Akshay Kumar
+        organization: Microsoft
+        email: akshayku@microsoft.com
+      -
+        fullname: Emil Lundberg
+        organization: Yubico
+        email: emil@yubico.com
+    date: 2021-04
+    target: https://www.w3.org/TR/webauthn-2/
 informative:
 
 
 --- abstract
 
-TODO Abstract
-
+This document specifies new identifiers and a challenge for the
+Automated Certificate Management Environment (ACME) protocol which allows validating the identity of a device using attestation.
 
 --- middle
 
 # Introduction
+The Automatic Certificate Management Environment (ACME) {{RFC8555}} standard specifies methods for validating control over identifiers, such as domain names. It is also useful to be able to validate properties of the device requesting the certificate, such as the identity of the device and if the certificate key is protected by a secure cryptoprocessor.
 
-TODO Introduction
+Many operating systems and device vendors offer functionality enabling a device to generate a cryptographic attestation of their identity, such as:
+
+- [Android Key Attestation](https://source.android.com/security/keystore/attestation)
+- [Chrome OS Verified Access](https://developers.google.com/chrome/verified-access/overview)
+- [Trusted Platform Module](https://trustedcomputinggroup.org/resource/trusted-platform-module-tpm-summary/)
+
+This document specifies two new identifier types, permanent-identifier and hardware-module, along with a new challenge type, device-attest-01. This challenge requires the client to generate an attestation that proves the asserted identifers belong to the device requesting the certificate. Appendix A provide guidance on how these identifers can be used for issuing client certificates to devices in an enterprise PKI context.
 
 
 # Conventions and Definitions
 
 {::boilerplate bcp14-tagged}
 
+# Permanent Identifier
+A new identifer type, "permanent-identifier" in introduced to represent the identify of a device assigned by the manufacturer, typically a serial number.
+
+The identity along with the assigning orangization can be included in the Subject Alternate Name Extension using the PermanentIdentifier form described in {{!RFC4043}}.
+
+If the server includes PermanentIdentifier or HardwareModule in the subjectAltName extension the device attestation MUST have been cryptographically verified.
+
+If the server wishes to issue privacy-preserving certificates, it MAY omit PermanentIdentifier from the subjectAltName extension.
+
+# Hardware Module
+A new identifer type, "hardware-module" in introduced to represent the identify of secure cryptoprocessor, if any, that generated the certificate key.
+
+(TODO describe the certificate representation)
+
+If the server includes HardwareModule in the subjectAltName extension the CA MUST verify that the certificate key was generated on the secure cryptoprocessor with the asserted identity and type. The key MUST NOT be able to be exported from the cryptoprocessor.
+
+If the server wishes to issue privacy-preserving certificates, it MAY omit HardwareModule from the subjectAltName extension.
+
+# Device Attestation Challenge
+The client can prove control over a permanent identifier of a device by
+providing an attestation statement containing the identifier of the device.
+
+The device-attest-01 ACME challenge object has the following format:
+
+type (required, string):
+: The string "device-attest-01".
+
+token (required, string):
+: A random value that uniquely identifies the challenge.  This value MUST have
+at least 128 bits of entropy. It MUST NOT contain any characters outside the
+base64url alphabet, including padding characters ("="). See {{!RFC4086}} for
+additional information on randomness requirements.
+
+~~~~~~~~~~
+{
+  "type": "device-attest-01",
+  "url": "https://example.com/acme/chall/Rg5dV14Gh1Q",
+  "status": "pending",
+  "token": "evaGxfADs6pSRb2LAv9IZf17Dt3juxGJ-PCt92wr-oA"
+}
+~~~~~~~~~~
+
+A client fulfills this challenge by generating an attestation object as described in Section 6.5.4 of [WebAuthn], substituting the "token" value provided in the challenge for the _hash_ and ommiting the _authData_ field entirely.
+
+This specification defines a new challenge response field `attObj` to contain WebAuthn attestation objects as described in Section 7.5.1 of {{!RFC8555}}.
+
+A client responds with the response object containing the WebAuthn attestation object in the `attObj` field to acknowledge that the challenge can be validated by the server.
+
+~~~~~~~~~~
+POST /acme/chall/Rg5dV14Gh1Q
+Host: example.com
+Content-Type: application/jose+json
+
+{
+  "protected": base64url({
+    "alg": "ES256",
+    "kid": "https://example.com/acme/acct/evOfKhNU60wg",
+    "nonce": "SS2sSl1PtspvFZ08kNtzKd",
+    "url": "https://example.com/acme/chall/Rg5dV14Gh1Q"
+  }),
+  "payload": base64url({
+    "attObj": base64url(/* WebAuthn attestation object */),
+  }),
+  "signature": "Q1bURgJoEslbD1c5...3pYdSMLio57mQNN4"
+}
+~~~~~~~~~~
 
 # Security Considerations
 
@@ -51,10 +144,32 @@ TODO Security
 
 # IANA Considerations
 
-This document has no IANA actions.
+## ACME Identifier Types
+
+The "ACME Validation Methods" registry is to be updated to include the following entry:
+
+| Label                | Reference |
+| :------------------- | :-------- |
+| permanent-identifier | RFC XXXX  |
+| hardware-module      | RFC XXXX  |
+
+## ACME Validation Method
+
+The "ACME Validation Methods" registry is to be updated to include the following entry:
+
+| Label            | Identifier Type      | Reference |
+| :--------------- | :------------------- | :-------- |
+| device-attest-01 | permanent-identifier | RFC XXXX  |
 
 
 --- back
+
+# Enterprise PKI
+ACME was originally originally envisioned for issuing certificates in the Web PKI, however this extention will primarily be usedful in enterprise PKI. The subsection below cover some operational considerations for an ACME-based enterprise CA.
+
+## External Account Binding
+An enterprise CA likely only wants to recieve requests from authorized devices. It is RECOMMENDED that the server require a value for the "externalAccountBinding" field to be
+present in "newAccount" requests.
 
 # Acknowledgments
 {:numbered="false"}

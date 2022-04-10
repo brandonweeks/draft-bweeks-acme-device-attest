@@ -1,6 +1,6 @@
-# Automated Certificate Management Environment (ACME) Attestation Statement Validation Extension
+# Automated Certificate Management Environment (ACME) Device Attestation Extension
 
-This is the working area for the individual Internet-Draft, "Automated Certificate Management Environment (ACME) Attestation Statement Validation Extension".
+This is the working area for the individual Internet-Draft, "Automated Certificate Management Environment (ACME) Device Attestation Extension".
 
 * [Editor's Copy](https://brandonweeks.github.io/draft-bweeks-acme-device-attest/#go.draft-bweeks-acme-device-attest.html)
 * [Datatracker Page](https://datatracker.ietf.org/doc/draft-bweeks-acme-device-attest)
