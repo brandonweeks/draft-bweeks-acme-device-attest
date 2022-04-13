@@ -63,8 +63,12 @@ Many operating systems and device vendors offer functionality enabling a device 
 - [Chrome OS Verified Access](https://developers.google.com/chrome/verified-access/overview)
 - [Trusted Platform Module](https://trustedcomputinggroup.org/resource/trusted-platform-module-tpm-summary/)
 
-This document specifies two new identifier types, permanent-identifier and hardware-module, along with a new challenge type, device-attest-01. This challenge requires the client to generate an attestation that proves the asserted identifers belong to the device requesting the certificate. Appendix A provide guidance on how these identifers can be used for issuing client certificates to devices in an enterprise PKI context.
+Using ACME and device attestation to issue client certificate for enterprise PKI is anticipated to be the most common use case. The following variances to the ACME specification are described in this document:
 
+- Addition of `permanent-identifier` and `hardware-module` identifier types.
+- Addition of the `device-attest-01` challenge type to prove control of the `permanent-identifier` and `hardware-module` identifier types.
+- The challenge response payload contains a serialized WebAuthn attestation statement format instead of an empty JSON object (`{}`).
+- Accounts and external account binding being used as a mechanism to pre-authenticate requests to an enterprise CA.
 
 # Conventions and Definitions
 
