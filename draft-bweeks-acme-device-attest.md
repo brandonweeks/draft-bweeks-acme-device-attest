@@ -116,11 +116,25 @@ additional information on randomness requirements.
 }
 ~~~~~~~~~~
 
-A client fulfills this challenge by generating an attestation object as described in Section 6.5.4 of [WebAuthn], substituting the "token" value provided in the challenge for the _hash_ and ommiting the _authData_ field entirely.
+ A client fulfills this challenge by constructing a key authorization
+ from the "token" value provided in the challenge and the client's
+ account key. The client then generates an WebAuthn attestation object using the key authorization as the challenge.
 
-This specification defines a new challenge response field `attObj` to contain WebAuthn attestation objects as described in Section 7.5.1 of {{!RFC8555}}.
+This specification borrows the WebAuthn _attestation object_ representation as described in Section 6.5.4 of [WebAuthn] for encapsulating attestation formats with these modification:
 
-A client responds with the response object containing the WebAuthn attestation object in the `attObj` field to acknowledge that the challenge can be validated by the server.
+- The key authorization is used to to form _attToBeSigned_. This replaces the concatenation of _authenticatorData_ and _clientDataHash_.
+- The _authData_ field is unused and should be omitted.
+
+A client responds with the response object containing the WebAuthn attestation object in the "attObj" field to acknowledge that the challenge can be validated by the server.
+
+On receiving a response, the server constructs and stores the key authorization from the challenge "token" value and the current client account key.
+
+To validate a device attestation challenge, the server performs the following steps:
+
+1. Perform the verification proceedures described in Section 6 of [WebAuthn].
+2. Verify that key authorization conveyed by _attToBeSigned_ matches the key authorization stored by the server.
+
+<!-- This specification defines a new challenge response field `attObj` to contain WebAuthn attestation objects as described in Section 7.5.1 of {{!RFC8555}}. -->
 
 ~~~~~~~~~~
 POST /acme/chall/Rg5dV14Gh1Q
