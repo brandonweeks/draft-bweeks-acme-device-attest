@@ -189,6 +189,8 @@ ACME was originally originally envisioned for issuing certificates in the Web PK
 An enterprise CA likely only wants to recieve requests from authorized devices. It is RECOMMENDED that the server require a value for the "externalAccountBinding" field to be
 present in "newAccount" requests.
 
+If an enterprise CA desires to limit the number of certificate that can be requested with a given account, including limiting an account to a single certificate. After the desired number of certificates have been issued to an account, the server MAY revoke the account as described in Section 7.1.2 of {{RFC8555}}.
+
 # Acknowledgments
 {:numbered="false"}
 
