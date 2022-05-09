@@ -79,9 +79,9 @@ A new identifer type, "permanent-identifier" in introduced to represent the iden
 
 The identity along with the assigning orangization can be included in the Subject Alternate Name Extension using the PermanentIdentifier form described in {{!RFC4043}}.
 
-If the server includes PermanentIdentifier or HardwareModule in the subjectAltName extension the device attestation MUST have been cryptographically verified.
+<!-- Section 7.4 of RFC 8555 states "Specifications that define new identifier types must specify where in the certificate signing request these identifiers can appear." -->
 
-If the server wishes to issue privacy-preserving certificates, it MAY omit PermanentIdentifier from the subjectAltName extension.
+The server MAY allow the client to include this identifier in the certificate signing request (CSR). Alternatively if the server wishes to only issue privacy-preserving certificates, it MAY reject CSRs containing a PermanentIdentifier in the subjectAltName extension.
 
 # Hardware Module
 A new identifer type, "hardware-module" in introduced to represent the identify of secure cryptoprocessor, if any, that generated the certificate key.
