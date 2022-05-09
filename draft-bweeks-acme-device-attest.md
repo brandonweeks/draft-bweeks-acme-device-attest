@@ -75,7 +75,7 @@ Using ACME and device attestation to issue client certificate for enterprise PKI
 {::boilerplate bcp14-tagged}
 
 # Permanent Identifier
-A new identifer type, "permanent-identifier" in introduced to represent the identify of a device assigned by the manufacturer, typically a serial number.
+A new identifer type, "permanent-identifier" in introduced to represent the identify of a device assigned by the manufacturer, typically a serial number. The name of this identifier type was chosen to align with {{!RFC4043}}, it does perscribe the lifetime of the identifier, which is at the discretion of the Assigner Authority.
 
 The identity along with the assigning orangization can be included in the Subject Alternate Name Extension using the PermanentIdentifier form described in {{!RFC4043}}.
 
