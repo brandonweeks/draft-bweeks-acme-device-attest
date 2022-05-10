@@ -63,7 +63,7 @@ Many operating systems and device vendors offer functionality enabling a device 
 - [Chrome OS Verified Access](https://developers.google.com/chrome/verified-access/overview)
 - [Trusted Platform Module](https://trustedcomputinggroup.org/resource/trusted-platform-module-tpm-summary/)
 
-Using ACME and device attestation to issue client certificate for enterprise PKI is anticipated to be the most common use case. The following variances to the ACME specification are described in this document:
+Using ACME and device attestation to issue client certificates for enterprise PKI is anticipated to be the most common use case. The following variances to the ACME specification are described in this document:
 
 - Addition of `permanent-identifier` and `hardware-module` identifier types.
 - Addition of the `device-attest-01` challenge type to prove control of the `permanent-identifier` and `hardware-module` identifier types.
