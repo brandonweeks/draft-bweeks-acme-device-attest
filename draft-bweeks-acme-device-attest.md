@@ -75,16 +75,16 @@ Using ACME and device attestation to issue client certificate for enterprise PKI
 {::boilerplate bcp14-tagged}
 
 # Permanent Identifier
-A new identifer type, "permanent-identifier" in introduced to represent the identify of a device assigned by the manufacturer, typically a serial number. The name of this identifier type was chosen to align with {{!RFC4043}}, it does perscribe the lifetime of the identifier, which is at the discretion of the Assigner Authority.
+A new identifier type, "permanent-identifier" is introduced to represent the identity of a device assigned by the manufacturer, typically a serial number. The name of this identifier type was chosen to align with {{!RFC4043}}, it does not prescribe the lifetime of the identifier, which is at the discretion of the Assigner Authority.
 
-The identity along with the assigning orangization can be included in the Subject Alternate Name Extension using the PermanentIdentifier form described in {{!RFC4043}}.
+The identity along with the assigning organization can be included in the Subject Alternate Name Extension using the PermanentIdentifier form described in {{!RFC4043}}.
 
 <!-- Section 7.4 of RFC 8555 states "Specifications that define new identifier types must specify where in the certificate signing request these identifiers can appear." -->
 
 The server MAY allow the client to include this identifier in the certificate signing request (CSR). Alternatively if the server wishes to only issue privacy-preserving certificates, it MAY reject CSRs containing a PermanentIdentifier in the subjectAltName extension.
 
 # Hardware Module
-A new identifer type, "hardware-module" in introduced to represent the identify of secure cryptoprocessor, if any, that generated the certificate key.
+A new identifier type, "hardware-module" is introduced to represent the identity of the secure cryptoprocessor, if any, that generated the certificate key.
 
 (TODO describe the certificate representation)
 
@@ -122,7 +122,7 @@ additional information on randomness requirements.
 
 This specification borrows the WebAuthn _attestation object_ representation as described in Section 6.5.4 of [WebAuthn] for encapsulating attestation formats with these modification:
 
-- The key authorization is used to to form _attToBeSigned_. This replaces the concatenation of _authenticatorData_ and _clientDataHash_.
+- The key authorization is used to form _attToBeSigned_. This replaces the concatenation of _authenticatorData_ and _clientDataHash_.
 - The _authData_ field is unused and should be omitted.
 
 A client responds with the response object containing the WebAuthn attestation object in the "attObj" field to acknowledge that the challenge can be validated by the server.
@@ -183,13 +183,13 @@ The "ACME Validation Methods" registry is to be updated to include the following
 --- back
 
 # Enterprise PKI
-ACME was originally originally envisioned for issuing certificates in the Web PKI, however this extention will primarily be usedful in enterprise PKI. The subsection below cover some operational considerations for an ACME-based enterprise CA.
+ACME was originally envisioned for issuing certificates in the Web PKI, however this extension will primarily be useful in enterprise PKI. The subsection below covers some operational considerations for an ACME-based enterprise CA.
 
 ## External Account Binding
-An enterprise CA likely only wants to recieve requests from authorized devices. It is RECOMMENDED that the server require a value for the "externalAccountBinding" field to be
+An enterprise CA likely only wants to receive requests from authorized devices. It is RECOMMENDED that the server require a value for the "externalAccountBinding" field to be
 present in "newAccount" requests.
 
-If an enterprise CA desires to limit the number of certificate that can be requested with a given account, including limiting an account to a single certificate. After the desired number of certificates have been issued to an account, the server MAY revoke the account as described in Section 7.1.2 of {{RFC8555}}.
+If an enterprise CA desires to limit the number of certificates that can be requested with a given account, including limiting an account to a single certificate. After the desired number of certificates have been issued to an account, the server MAY revoke the account as described in Section 7.1.2 of {{RFC8555}}.
 
 # Acknowledgments
 {:numbered="false"}
