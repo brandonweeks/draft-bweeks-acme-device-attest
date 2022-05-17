@@ -116,13 +116,13 @@ additional information on randomness requirements.
 }
 ~~~~~~~~~~
 
- A client fulfills this challenge by constructing a key authorization
+ A client fulfills this challenge by constructing a key authorization ({{!RFC4086}} Section 8.1)
  from the "token" value provided in the challenge and the client's
  account key. The client then generates an WebAuthn attestation object using the key authorization as the challenge.
 
 This specification borrows the WebAuthn _attestation object_ representation as described in Section 6.5.4 of [WebAuthn] for encapsulating attestation formats with these modification:
 
-- The key authorization is used to form _attToBeSigned_. This replaces the concatenation of _authenticatorData_ and _clientDataHash_.
+- The key authorization is used to form _attToBeSigned_. This replaces the concatenation of _authenticatorData_ and _clientDataHash_. _attToBeSigned_ is hashed using an algorithm specified by the attestation format.
 - The _authData_ field is unused and should be omitted.
 
 A client responds with the response object containing the WebAuthn attestation object in the "attObj" field to acknowledge that the challenge can be validated by the server.
