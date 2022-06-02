@@ -81,12 +81,13 @@ The identity along with the assigning organization can be included in the Subjec
 
 <!-- Section 7.4 of RFC 8555 states "Specifications that define new identifier types must specify where in the certificate signing request these identifiers can appear." -->
 
-The server MAY allow the client to include this identifier in the certificate signing request (CSR). Alternatively if the server wishes to only issue privacy-preserving certificates, it MAY reject CSRs containing a PermanentIdentifier in the subjectAltName extension.
+Clients MAY include this identifier in the certificate signing request (CSR). Alternatively if the server wishes to only issue privacy-preserving certificates, it MAY reject CSRs containing a PermanentIdentifier in the subjectAltName extension.
 
 # Hardware Module
-A new identifier type, "hardware-module" is introduced to represent the identity of the secure cryptoprocessor, if any, that generated the certificate key.
+A new identifier type, "hardware-module" is introduced to represent the identity of the secure cryptoprocessor, that generated the certificate key.
 
-(TODO describe the certificate representation)
+<!-- TODO: describe the certificate representation -->
+<!-- TODO: describe how the CA assert the key is hardware backed without an identifier -->
 
 If the server includes HardwareModule in the subjectAltName extension the CA MUST verify that the certificate key was generated on the secure cryptoprocessor with the asserted identity and type. The key MUST NOT be able to be exported from the cryptoprocessor.
 
