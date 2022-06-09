@@ -1,0 +1,81 @@
+{
+  "magic": "E!vIA5L86J2I",
+  "timestamp": "2022-06-09T00:08:56.480176+00:00",
+  "repo": "brandonweeks/draft-bweeks-acme-device-attest",
+  "labels": [
+    {
+      "name": "bug",
+      "description": "Something isn't working",
+      "color": "d73a4a"
+    },
+    {
+      "name": "documentation",
+      "description": "Improvements or additions to documentation",
+      "color": "0075ca"
+    },
+    {
+      "name": "duplicate",
+      "description": "This issue or pull request already exists",
+      "color": "cfd3d7"
+    },
+    {
+      "name": "enhancement",
+      "description": "New feature or request",
+      "color": "a2eeef"
+    },
+    {
+      "name": "help wanted",
+      "description": "Extra attention is needed",
+      "color": "008672"
+    },
+    {
+      "name": "good first issue",
+      "description": "Good for newcomers",
+      "color": "7057ff"
+    },
+    {
+      "name": "invalid",
+      "description": "This doesn't seem right",
+      "color": "e4e669"
+    },
+    {
+      "name": "question",
+      "description": "Further information is requested",
+      "color": "d876e3"
+    },
+    {
+      "name": "wontfix",
+      "description": "This will not be worked on",
+      "color": "ffffff"
+    }
+  ],
+  "issues": [],
+  "pulls": [
+    {
+      "number": 1,
+      "id": "PR_kwDOHJ3oBc45S2dN",
+      "title": "Suggested wording edits",
+      "url": "https://github.com/brandonweeks/draft-bweeks-acme-device-attest/pull/1",
+      "state": "OPEN",
+      "author": "mayakacz",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "Attempted to:\r\n* add more context\r\n* follow formatting in other ACME and ACME-IP specs\r\n* identify TODOs\r\n\r\nFeel free to patch directly to change/remove any edits.",
+      "createdAt": "2022-06-08T06:36:25Z",
+      "updatedAt": "2022-06-08T06:36:25Z",
+      "baseRepository": "brandonweeks/draft-bweeks-acme-device-attest",
+      "baseRefName": "main",
+      "baseRefOid": "1e5a1d6d35eb7cd767d71af7fe9ca9edb5fbe654",
+      "headRepository": "mayakacz/draft-bweeks-acme-device-attest",
+      "headRefName": "mayakacz/edits",
+      "headRefOid": "427c26159ba4eb5b33dea264c18e0024de761c09",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
+    }
+  ]
+}
