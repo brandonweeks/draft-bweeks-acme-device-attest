@@ -4,8 +4,8 @@
 
 ACME Working Group                                              B. Weeks
 Internet-Draft                                                    Google
-Intended status: Standards Track                             2 June 2022
-Expires: 4 December 2022
+Intended status: Standards Track                            11 July 2022
+Expires: 12 January 2023
 
 
  Automated Certificate Management Environment (ACME) Device Attestation
@@ -33,7 +33,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 4 December 2022.
+   This Internet-Draft will expire on 12 January 2023.
 
 Copyright Notice
 
@@ -170,33 +170,33 @@ Table of Contents
 
    A client fulfills this challenge by constructing a key authorization
    ([RFC4086] Section 8.1) from the "token" value provided in the
-   challenge and the client's account key.  The client then generates an
+   challenge and the client's account key.  The client then generates a
    WebAuthn attestation object using the key authorization as the
    challenge.
 
    This specification borrows the WebAuthn _attestation object_
    representation as described in Section 6.5.4 of [WebAuthn] for
-   encapsulating attestation formats with these modification:
+   encapsulating attestation formats, but with these modifications:
 
    *  The key authorization is used to form _attToBeSigned_. This
       replaces the concatenation of _authenticatorData_ and
       _clientDataHash_. _attToBeSigned_ is hashed using an algorithm
       specified by the attestation format.
 
-   *  The _authData_ field is unused and should be omitted.
+   *  The _authData_ field is unused and SHOULD be omitted.
 
    A client responds with the response object containing the WebAuthn
    attestation object in the "attObj" field to acknowledge that the
    challenge can be validated by the server.
 
    On receiving a response, the server constructs and stores the key
-   authorization from the challenge "token" value and the current client
-   account key.
+   authorization from the challenge's "token" value and the current
+   client account key.
 
    To validate a device attestation challenge, the server performs the
    following steps:
 
-   1.  Perform the verification proceedures described in Section 6 of
+   1.  Perform the verification procedures described in Section 6 of
        [WebAuthn].
 
    2.  Verify that key authorization conveyed by _attToBeSigned_ matches
@@ -228,7 +228,7 @@ Table of Contents
 7.1.  ACME Identifier Types
 
    The "ACME Validation Methods" registry is to be updated to include
-   the following entry:
+   the following entries:
 
                    +======================+===========+
                    | Label                | Reference |
