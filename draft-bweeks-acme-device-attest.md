@@ -119,20 +119,20 @@ additional information on randomness requirements.
 
  A client fulfills this challenge by constructing a key authorization ({{!RFC4086}} Section 8.1)
  from the "token" value provided in the challenge and the client's
- account key. The client then generates an WebAuthn attestation object using the key authorization as the challenge.
+ account key. The client then generates a WebAuthn attestation object using the key authorization as the challenge.
 
-This specification borrows the WebAuthn _attestation object_ representation as described in Section 6.5.4 of [WebAuthn] for encapsulating attestation formats with these modification:
+This specification borrows the WebAuthn _attestation object_ representation as described in Section 6.5.4 of [WebAuthn] for encapsulating attestation formats, but with these modifications:
 
-- The key authorization is used to form _attToBeSigned_. This replaces the concatenation of _authenticatorData_ and _clientDataHash_. _attToBeSigned_ is hashed using an algorithm specified by the attestation format.
-- The _authData_ field is unused and should be omitted.
+- The key authorization is used to form _attToBeSigned_. This replaces the concatenation of _authenticatorData_ and _clientDataHash_. _attToBeSigned_ is hashed using an algorithm specified by the attestation format. <!-- TODO: ^^^ perhaps add more cross-refs or context about "using an algorithm specified by the attestation format" -->
+- The _authData_ field is unused and SHOULD be omitted.
 
 A client responds with the response object containing the WebAuthn attestation object in the "attObj" field to acknowledge that the challenge can be validated by the server.
 
-On receiving a response, the server constructs and stores the key authorization from the challenge "token" value and the current client account key.
+On receiving a response, the server constructs and stores the key authorization from the challenge's "token" value and the current client account key.
 
 To validate a device attestation challenge, the server performs the following steps:
 
-1. Perform the verification proceedures described in Section 6 of [WebAuthn].
+1. Perform the verification procedures described in Section 6 of [WebAuthn].
 2. Verify that key authorization conveyed by _attToBeSigned_ matches the key authorization stored by the server.
 
 <!-- This specification defines a new challenge response field `attObj` to contain WebAuthn attestation objects as described in Section 7.5.1 of {{!RFC8555}}. -->
@@ -165,7 +165,7 @@ TODO Security
 
 ## ACME Identifier Types
 
-The "ACME Validation Methods" registry is to be updated to include the following entry:
+The "ACME Validation Methods" registry is to be updated to include the following entries:
 
 | Label                | Reference |
 | :------------------- | :-------- |
@@ -185,6 +185,7 @@ The "ACME Validation Methods" registry is to be updated to include the following
 
 # Enterprise PKI
 ACME was originally envisioned for issuing certificates in the Web PKI, however this extension will primarily be useful in enterprise PKI. The subsection below covers some operational considerations for an ACME-based enterprise CA.
+<!-- TODO: ^^^ perhaps also mention/cover IoT attestation PKI usecases -->
 
 ## External Account Binding
 An enterprise CA likely only wants to receive requests from authorized devices. It is RECOMMENDED that the server require a value for the "externalAccountBinding" field to be
