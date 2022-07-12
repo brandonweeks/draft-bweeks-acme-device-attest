@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2022-07-10T00:11:33.361460+00:00",
+  "timestamp": "2022-07-12T00:09:29.597440+00:00",
   "repo": "brandonweeks/draft-bweeks-acme-device-attest",
   "labels": [
     {
@@ -82,24 +82,26 @@
       "id": "PR_kwDOHJ3oBc47G6jU",
       "title": "Minor spelling/grammar editorials and suggestions",
       "url": "https://github.com/brandonweeks/draft-bweeks-acme-device-attest/pull/2",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "tcarmelveilleux",
-      "authorAssociation": "NONE",
+      "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "- Several plurals missed\r\n- `proceedures` -> `procedures`\r\n- Other minor editorials\r\n- Added TODOs (which can be suggested away/omitted) regarding other usecases and opportunities for slightly more context",
       "createdAt": "2022-07-08T13:26:47Z",
-      "updatedAt": "2022-07-08T13:26:48Z",
+      "updatedAt": "2022-07-11T16:48:23Z",
       "baseRepository": "brandonweeks/draft-bweeks-acme-device-attest",
       "baseRefName": "main",
       "baseRefOid": "1e5a1d6d35eb7cd767d71af7fe9ca9edb5fbe654",
       "headRepository": "tcarmelveilleux/draft-bweeks-acme-device-attest",
       "headRefName": "patch-1",
       "headRefOid": "de439f016bff2554b88b8640b2ef309e4acc5596",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2022-07-11T16:48:23Z",
+      "mergedAt": "2022-07-11T16:48:23Z",
+      "mergedBy": "brandonweeks",
+      "mergeCommit": {
+        "oid": "f14e67199708b676cfddaa90a348f0b9430f8606"
+      },
       "comments": [],
       "reviews": []
     }
