@@ -70,6 +70,8 @@ Using ACME and device attestation to issue client certificates for enterprise PK
 - The challenge response payload contains a serialized WebAuthn attestation statement format instead of an empty JSON object (`{}`).
 - Accounts and external account binding being used as a mechanism to pre-authenticate requests to an enterprise CA.
 
+This document does not specify the attestation verification procedures. Section 13 of {{WebAuthn}} gives some guidance, however verification procedures are complex and may require changes to address future security issues.
+
 # Conventions and Definitions
 
 {::boilerplate bcp14-tagged}
@@ -84,7 +86,7 @@ The identity along with the assigning organization can be included in the Subjec
 Clients MAY include this identifier in the certificate signing request (CSR). Alternatively if the server wishes to only issue privacy-preserving certificates, it MAY reject CSRs containing a PermanentIdentifier in the subjectAltName extension.
 
 # Hardware Module
-A new identifier type, "hardware-module" is introduced to represent the identity of the secure cryptoprocessor, that generated the certificate key.
+A new identifier type, "hardware-module" is introduced to represent the identity of the secure cryptoprocessor that generated the certificate key.
 
 <!-- TODO: describe the certificate representation -->
 <!-- TODO: describe how the CA assert the key is hardware backed without an identifier -->
@@ -158,8 +160,9 @@ Content-Type: application/jose+json
 
 # Security Considerations
 
-TODO Security
+See Section 13 of {{WebAuthn}} for additional security considerations related to attestation statement formats, including certificate revocation.
 
+Key attestation statements may include a variety of information in addition to the public key being attested. While not described in this document, the server MAY use any policy when evaluating this information. This evaluation can result in rejection of a certificate request that features a verifiable key attestation for the public key contained in the request. For example, an attestation statement may indicate use of an unacceptable firmware version.
 
 # IANA Considerations
 
