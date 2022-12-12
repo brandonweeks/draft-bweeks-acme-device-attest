@@ -17,6 +17,7 @@ author:
     email: bweeks@google.com
 
 normative:
+  RFC4108:
   RFC4043:
   RFC8555:
   RFC8809:
@@ -56,7 +57,7 @@ Automated Certificate Management Environment (ACME) protocol which allows valida
 --- middle
 
 # Introduction
-The Automatic Certificate Management Environment (ACME) {{RFC8555}} standard specifies methods for validating control over identifiers, such as domain names. It is also useful to be able to validate properties of the device requesting the certificate, such as the identity of the device and if the certificate key is protected by a secure cryptoprocessor.
+The Automatic Certificate Management Environment (ACME) {{RFC8555}} standard specifies methods for validating control over identifiers, such as domain names. It is also useful to be able to validate properties of the device requesting the certificate, such as the identity of the device /and whether the certificate key is protected by a secure cryptoprocessor.
 
 Many operating systems and device vendors offer functionality enabling a device to generate a cryptographic attestation of their identity, such as:
 
@@ -66,7 +67,7 @@ Many operating systems and device vendors offer functionality enabling a device 
 
 Using ACME and device attestation to issue client certificates for enterprise PKI is anticipated to be the most common use case. The following variances to the ACME specification are described in this document:
 
-- Addition of `permanent-identifier` and `hardware-module` identifier types.
+- Addition of `permanent-identifier` {{!RFC4043}} and `hardware-module` {{!RFC4108}} identifier types.
 - Addition of the `device-attest-01` challenge type to prove control of the `permanent-identifier` and `hardware-module` identifier types.
 - The challenge response payload contains a serialized WebAuthn attestation statement format instead of an empty JSON object (`{}`).
 - Accounts and external account binding being used as a mechanism to pre-authenticate requests to an enterprise CA.
