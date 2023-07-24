@@ -188,6 +188,14 @@ The "ACME Validation Methods" registry is to be updated to include the following
 <!-- Begin WebAuthn registry text -->
 <!-- Editor's note: the below text was written by Carl Wallance as part of draft-wallace-lamps-key-attestation-ext. These registries only need to be established by a single document, so if they are established by another document prior to this document being approved, this text will be removed and replaced with a reference to the other document.  -->
 
+## New Error Types
+
+This document adds the following entries to the ACME Error Type registry:
+
+| Type                    | Description                                                                                               | Reference |
+|-------------------------|-----------------------------------------------------------------------------------------------------------|-----------|
+| badAttestationStatement | The attestation statement is unacceptable (e.g. not signed by an attestation authority trusted by the CA) | RFC XXXX  |
+
 ## Attestation statement formats
 
 {{Section 2.1 of RFC8809}} describes registration of new attestation statement format types used when authenticating users via {{WebAuthn}}. This specification reuses the same format, but, because the context for use is different, a different registry is required. This section defines IANA registries for W3C Web Authentication (WebAuthn) attestation statement format identifiers and extension identifiers used in the context of a certificate request. This specification establishes two registries:
