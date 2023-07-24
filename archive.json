@@ -1,0 +1,215 @@
+{
+  "magic": "E!vIA5L86J2I",
+  "timestamp": "2022-12-13T00:09:33.266690+00:00",
+  "repo": "brandonweeks/draft-bweeks-acme-device-attest",
+  "labels": [
+    {
+      "name": "bug",
+      "description": "Something isn't working",
+      "color": "d73a4a"
+    },
+    {
+      "name": "documentation",
+      "description": "Improvements or additions to documentation",
+      "color": "0075ca"
+    },
+    {
+      "name": "duplicate",
+      "description": "This issue or pull request already exists",
+      "color": "cfd3d7"
+    },
+    {
+      "name": "enhancement",
+      "description": "New feature or request",
+      "color": "a2eeef"
+    },
+    {
+      "name": "good first issue",
+      "description": "Good for newcomers",
+      "color": "7057ff"
+    },
+    {
+      "name": "help wanted",
+      "description": "Extra attention is needed",
+      "color": "008672"
+    },
+    {
+      "name": "invalid",
+      "description": "This doesn't seem right",
+      "color": "e4e669"
+    },
+    {
+      "name": "question",
+      "description": "Further information is requested",
+      "color": "d876e3"
+    },
+    {
+      "name": "wontfix",
+      "description": "This will not be worked on",
+      "color": "ffffff"
+    }
+  ],
+  "issues": [
+    {
+      "number": 3,
+      "id": "I_kwDOHJ3oBc5RgOXY",
+      "title": "Is it correct that AIK activation is not covered by the spec?",
+      "url": "https://github.com/brandonweeks/draft-bweeks-acme-device-attest/issues/3",
+      "state": "CLOSED",
+      "author": "arianvp",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "I've been trying to follow the webauthn spec's `tpm` attestation. But at what point of the flow do we prove that the `AK` and the `EK` are on the same device here?    It only seems to check that the `AK` signed the challenge and that the Attestation CA signed the `AK` but it does not perform the activation handshake that proves that the EK and AK are on the same cryptographic device before signing the AK. They just say \"It's the responsibility of the Attestation CA to check that the EK and AK are there\") Is that something that is planned to be added to this spec? Or did I read over it? as it seems like an important part of attestation to actually check that the device is genuine.\r\n",
+      "createdAt": "2022-09-09T07:20:28Z",
+      "updatedAt": "2022-11-02T17:46:23Z",
+      "closedAt": "2022-11-02T17:42:26Z",
+      "comments": [
+        {
+          "author": "arianvp",
+          "authorAssociation": "NONE",
+          "body": "Looking at the demo it seems that the whole \"Attestation CA\" part is  indeed missing; as the AK is signed without any verification with the Root CA unconditionally without first calling https://pkg.go.dev/github.com/google/go-attestation/attest#AK.ActivateCredential to make sure the AK and EK reside on the same device and that the EK is legit .   https://github.com/brandonweeks/acme-device-attest-demo/blob/main/client/client.go#L78 \r\n\r\nIs this out of scope for this spec? Is it up to attestation servers to implement device enrollment?\r\n\r\n",
+          "createdAt": "2022-09-09T07:35:47Z",
+          "updatedAt": "2022-09-09T07:38:14Z"
+        },
+        {
+          "author": "arianvp",
+          "authorAssociation": "NONE",
+          "body": "ah I guess this would be part of the `hardware-module` validation method; which isn't specified in the draft yet?",
+          "createdAt": "2022-09-09T10:07:22Z",
+          "updatedAt": "2022-09-09T10:07:22Z"
+        },
+        {
+          "author": "hslatman",
+          "authorAssociation": "NONE",
+          "body": "@arianvp from a discussion with @brandonweeks I concluded that the \"Attestation CA\" part is intentionally omitted from the RFC, because it would be very dependent on the (TPM/TEE) platform and thus hard to sufficiently specify in a standard. It is expected that a device in need of a DA proof for ACME DA interacts with another system, the \"Attestation CA\", also sometimes called \"Privacy CA\" or \"Anonymization CA\"; and perhaps other names, before interacting with an ACME server. How and when a device does this, is essentially up to the parties involved in manufacturing and using the device. \r\n\r\nFor iOS, the servers are provided by Apple and attestation involves checking against the manufacturing records they have for the device before a device is issued a certificate. In https://github.com/smallstep/certificates/ we also support ACME DA with Yubikeys, which can create an attestation certificate themselves using the embedded intermediate CA every Yubikey has. Other platforms could implement something similar to the Yubikey or Apple, depending on security requirements, and probably already do so. I'm not aware of a fully specified, standardized protocol to perform this step, but the example at https://github.com/google/go-attestation#example-device-identity and the description at https://tpm2-software.github.io/tpm2-tss/getting-started/2019/12/18/Remote-Attestation.html offer some guidance on what such a protocol would look like. A notable open source project that includes device attestation is https://keylime.dev/, but it goes further than just device identity attestation: it also does measured boot verification and runtime integrity attestation.\r\n\r\nI've described my own adaptation of the attestation flow (and ACME DA) in a blog at https://smallstep.com/blog/managed-device-attestation/#trusted-platform-module-tpm-attestation and have a POC for the attestation CA that we maybe are going to expand on, but hasn't been planned nor fully thought-out yet.",
+          "createdAt": "2022-10-04T12:02:04Z",
+          "updatedAt": "2022-10-04T12:02:04Z"
+        },
+        {
+          "author": "arianvp",
+          "authorAssociation": "NONE",
+          "body": "This is very helpful. Thanks for the explanation.\r\n\r\nI'm still curious what the `hardware-module` part of this spec is gonna look like though.",
+          "createdAt": "2022-10-04T13:46:47Z",
+          "updatedAt": "2022-10-04T13:46:47Z"
+        },
+        {
+          "author": "hslatman",
+          "authorAssociation": "NONE",
+          "body": "My understanding of that section is that an ACME client can send a CSR with a [HardwareModuleName](https://www.rfc-editor.org/rfc/rfc4108#section-5) SAN. That CSR must be signed by a private key created in the TPM. The ACME server then has to verify the properties of the attestation object accordingly.\r\n\r\nIn the example client a `PermanentIdentifier` is used, but that can also be a `HardwareModuleName` (the value of which first has to be read from the TPM). In https://github.com/brandonweeks/acme-device-attest-demo/blob/main/client/client.go#L281-L295 a new private key is created inside the TPM that is attested by the AK. The resulting private key has a reference to its certification parameters that are included in the attestation statement that is sent to the ACME server: https://github.com/brandonweeks/acme-device-attest-demo/blob/160b88dfb210a0f074232514eaf31d57975be715/client/client.go#L118-L131. That part is in the `CreateAttestation` property, which is a `TPMB_Attest` structure in TPM parlance (I believe; the Go pkg doc states it's `TPMS_Attest`). The CA can read this property and verify the key resides in the TPM.\r\n\r\nI'm not entirely sure yet if this is how it's supposed to work and if we're going to implement it like this in `step-ca`. I think the main ideas are in the right direction, though.\r\n\r\n\r\n",
+          "createdAt": "2022-10-04T16:11:38Z",
+          "updatedAt": "2022-10-04T16:11:38Z"
+        },
+        {
+          "author": "brandonweeks",
+          "authorAssociation": "OWNER",
+          "body": "The specification intentionally assumes that an Attestation/Privacy CA has already verified the EK certificate, performed credential activation, and issued an attestation key certificate to the device.\r\n\r\nGiven the flexibility and varied privacy models of the TPM specification, it does not seem straightforward to attempt to specific the steps prior to an AK certificate being issued in this document. For example, devices that are intentionally not privacy preserving could be shipped with an IAK [0]. These devices would be ready to request a certificate from an ACME server out of the box. Another example is devices in an enterprise environment, where the enterprise likely wants to issue a deanonymized AK certificate.\r\n\r\n[0] https://trustedcomputinggroup.org/wp-content/uploads/TPM-2p0-Keys-for-Device-Identity-and-Attestation_v1_r12_pub10082021.pdf",
+          "createdAt": "2022-11-02T17:39:41Z",
+          "updatedAt": "2022-11-02T17:39:41Z"
+        },
+        {
+          "author": "arianvp",
+          "authorAssociation": "NONE",
+          "body": "Sounds clear! I'll close this issue",
+          "createdAt": "2022-11-02T17:42:26Z",
+          "updatedAt": "2022-11-02T17:42:26Z"
+        },
+        {
+          "author": "brandonweeks",
+          "authorAssociation": "OWNER",
+          "body": "https://www.ietf.org/mailman/listinfo/acme\r\n\r\nIf you have any other feedback, feel free to start a thread on the ACME WG mailing list. Any input from people thinking about how they'd implement the spec is greatly appreciated.\r\n\r\nI've also made a note to myself to add a real Attestation CA to the demo and make it a touch less fake.\r\n",
+          "createdAt": "2022-11-02T17:46:23Z",
+          "updatedAt": "2022-11-02T17:46:23Z"
+        }
+      ]
+    },
+    {
+      "number": 4,
+      "id": "I_kwDOHJ3oBc5Rg6sx",
+      "title": "Suggestion:   allow optional addition of authData  for better compatibility with existing attestation solutions like Apple DeviceCheck",
+      "url": "https://github.com/brandonweeks/draft-bweeks-acme-device-attest/issues/4",
+      "state": "OPEN",
+      "author": "arianvp",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "I'm interested in using Apple DeviceCheck with this spec as DeviceCheck exists today and can be used in non-enterprise settings.. Problem is that DeviceCheck[0] adheres to Webauthn more strictly than this spec and thus it seems impossible to combine at the moment. The problem lies in the redefinition of `attToBeSigned`. Namely Devicecheck _will_ concatenate the `authData` instead of ignorintg it\r\n\r\n \r\n\r\nInstead of defining `attToBeSigned = sha256(key authorization)`\r\n\r\nit defines it as :\r\n\r\n```\r\nattToBeSigned = authData || sha256(keyAuthorization)\r\n```\r\n\r\n\r\n\r\nI think we could adopt the spec in a backwards compatible way with the current spec to say:\r\n\r\n```\r\nauthData MAY be present if authData is present it MUST be prepended to attToBeSigned\r\n``` \r\n\r\nThis would make Apple DeviceCheck[0] compatible with this spec.\r\n\r\n[0] - https://developer.apple.com/documentation/devicecheck/validating_apps_that_connect_to_your_server\r\n\r\n\r\n\r\n",
+      "createdAt": "2022-09-09T09:55:30Z",
+      "updatedAt": "2022-09-09T09:55:30Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 5,
+      "id": "I_kwDOHJ3oBc5TKgP0",
+      "title": "Attestation Statement Error",
+      "url": "https://github.com/brandonweeks/draft-bweeks-acme-device-attest/issues/5",
+      "state": "OPEN",
+      "author": "maraino",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "### Description\r\n\r\nACME RFC [section-6.7](https://www.rfc-editor.org/rfc/rfc8555#section-6.7) defines some standard errors. A device attestation error should be defined, something like:\r\n\r\n| Type | Description\r\n| --- | --- |\r\n| badAttestationStatement | Attestation statement cannot be verified |",
+      "createdAt": "2022-10-03T20:09:51Z",
+      "updatedAt": "2022-10-03T20:09:51Z",
+      "closedAt": null,
+      "comments": []
+    }
+  ],
+  "pulls": [
+    {
+      "number": 1,
+      "id": "PR_kwDOHJ3oBc45S2dN",
+      "title": "Suggested wording edits",
+      "url": "https://github.com/brandonweeks/draft-bweeks-acme-device-attest/pull/1",
+      "state": "OPEN",
+      "author": "mayakacz",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "Attempted to:\r\n* add more context\r\n* follow formatting in other ACME and ACME-IP specs\r\n* identify TODOs\r\n\r\nFeel free to patch directly to change/remove any edits.",
+      "createdAt": "2022-06-08T06:36:25Z",
+      "updatedAt": "2022-12-12T19:26:33Z",
+      "baseRepository": "brandonweeks/draft-bweeks-acme-device-attest",
+      "baseRefName": "main",
+      "baseRefOid": "6a0b99b3ff024a1cc19494a92f7fc4f8c06a90a2",
+      "headRepository": "mayakacz/draft-bweeks-acme-device-attest",
+      "headRefName": "mayakacz/edits",
+      "headRefOid": "427c26159ba4eb5b33dea264c18e0024de761c09",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 2,
+      "id": "PR_kwDOHJ3oBc47G6jU",
+      "title": "Minor spelling/grammar editorials and suggestions",
+      "url": "https://github.com/brandonweeks/draft-bweeks-acme-device-attest/pull/2",
+      "state": "MERGED",
+      "author": "tcarmelveilleux",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "- Several plurals missed\r\n- `proceedures` -> `procedures`\r\n- Other minor editorials\r\n- Added TODOs (which can be suggested away/omitted) regarding other usecases and opportunities for slightly more context",
+      "createdAt": "2022-07-08T13:26:47Z",
+      "updatedAt": "2022-07-11T16:48:23Z",
+      "baseRepository": "brandonweeks/draft-bweeks-acme-device-attest",
+      "baseRefName": "main",
+      "baseRefOid": "1e5a1d6d35eb7cd767d71af7fe9ca9edb5fbe654",
+      "headRepository": "tcarmelveilleux/draft-bweeks-acme-device-attest",
+      "headRefName": "patch-1",
+      "headRefOid": "de439f016bff2554b88b8640b2ef309e4acc5596",
+      "closedAt": "2022-07-11T16:48:23Z",
+      "mergedAt": "2022-07-11T16:48:23Z",
+      "mergedBy": "brandonweeks",
+      "mergeCommit": {
+        "oid": "f14e67199708b676cfddaa90a348f0b9430f8606"
+      },
+      "comments": [],
+      "reviews": []
+    }
+  ]
+}
