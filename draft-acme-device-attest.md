@@ -121,7 +121,7 @@ additional information on randomness requirements.
 }
 ~~~~~~~~~~
 
- A client fulfills this challenge by constructing a key authorization ({{!RFC4086}} Section 8.1)
+ A client fulfills this challenge by constructing a key authorization ({{Section 8.1 of !RFC8555}})
  from the "token" value provided in the challenge and the client's
  account key. The client then generates a WebAuthn attestation object using the key authorization as the challenge.
 
