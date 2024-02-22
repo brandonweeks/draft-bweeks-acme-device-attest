@@ -10,24 +10,24 @@
        This document specifies new identifiers and a challenge for the
 Automated Certificate Management Environment (ACME) protocol which allows validating the identity of a device using attestation. 
     " name="description">
-<meta content="xml2rfc 3.17.4" name="generator">
+<meta content="xml2rfc 3.19.4" name="generator">
 <meta content="Internet-Draft" name="keyword">
 <meta content="draft-acme-device-attest-latest" name="ietf.draft">
 <!-- Generator version information:
-  xml2rfc 3.17.4
-    Python 3.11.4
-    ConfigArgParse 1.5.3
+  xml2rfc 3.19.4
+    Python 3.11.6
+    ConfigArgParse 1.7
     google-i18n-address 3.1.0
     intervaltree 3.1.0
     Jinja2 3.1.2
     lxml 4.9.3
-    platformdirs 3.9.1
+    platformdirs 4.2.0
     pycountry 22.3.5
-    PyYAML 6.0
+    PyYAML 6.0.1
     requests 2.31.0
-    setuptools 67.7.2
+    setuptools 68.2.2
     six 1.16.0
-    wcwidth 0.2.6
+    wcwidth 0.2.13
 -->
 <link href="draft-acme-device-attest.xml" rel="alternate" type="application/rfc+xml">
 <link href="#copyright" rel="license">
@@ -650,7 +650,7 @@ sub, sup {
 }
 #toc nav li {
   line-height: 1.3em;
-  margin: 0.75em 0;
+  margin: 2px 0;
   padding-left: 1.2em;
   text-indent: -1.2em;
 }
@@ -743,7 +743,7 @@ hr.addr {
     z-index: 2;
     top: 0;
     right: 0;
-    padding: 0;
+    padding: 1px 0 0 0;
     margin: 0;
     border-bottom: 1px solid #ccc;
     opacity: 0.6;
@@ -867,16 +867,13 @@ hr.addr {
     border-top: none;
     padding-top: 0;
   }
-  figure, pre {
+  figure, pre, .vcard {
     page-break-inside: avoid;
-  }
-  figure {
-    overflow: scroll;
   }
   h1, h2, h3, h4, h5, h6 {
     page-break-after: avoid;
   }
-  h2+*, h3+*, h4+*, h5+*, h6+* {
+  :is(h2, h3, h4, h5, h6)+*, dd {
     page-break-before: avoid;
   }
   pre {
@@ -889,6 +886,9 @@ hr.addr {
   }
   td {
     border-top: 1px solid #ddd;
+  }
+  .toplink {
+    display: none;
   }
 }
 
@@ -990,28 +990,6 @@ address div.right {
   text-align: right;
 }
 
-/* Give the table caption label the same styling as the figcaption */
-
-@media print {
-  .toplink {
-    display: none;
-  }
-
-  /* avoid overwriting the top border line with the ToC header */
-  #toc {
-    padding-top: 1px;
-  }
-
-  /* Avoid page breaks inside dl and author address entries */
-  dd {
-    page-break-before: avoid;
-  }
-  .vcard {
-    page-break-inside: avoid;
-  }
-
-}
-
 /* Dark mode. */
 @media (prefers-color-scheme: dark) {
 :root {
@@ -1048,11 +1026,11 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">ACME DA</td>
-<td class="right">July 2023</td>
+<td class="right">February 2024</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Weeks</td>
-<td class="center">Expires 25 January 2024</td>
+<td class="center">Expires 25 August 2024</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1065,12 +1043,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-acme-device-attest-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2023-07-24" class="published">24 July 2023</time>
+<time datetime="2024-02-22" class="published">22 February 2024</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2024-01-25">25 January 2024</time></dd>
+<dd class="expires"><time datetime="2024-08-25">25 August 2024</time></dd>
 <dt class="label-authors">Author:</dt>
 <dd class="authors">
 <div class="author">
@@ -1105,7 +1083,7 @@ Automated Certificate Management Environment (ACME) protocol which allows valida
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 25 January 2024.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 25 August 2024.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1114,7 +1092,7 @@ Automated Certificate Management Environment (ACME) protocol which allows valida
 <a href="#name-copyright-notice" class="section-name selfRef">Copyright Notice</a>
         </h2>
 <p id="section-boilerplate.2-1">
-            Copyright (c) 2023 IETF Trust and the persons identified as the
+            Copyright (c) 2024 IETF Trust and the persons identified as the
             document authors. All rights reserved.<a href="#section-boilerplate.2-1" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.2-2">
             This document is subject to BCP 78 and the IETF Trust's Legal
@@ -1207,24 +1185,28 @@ Automated Certificate Management Environment (ACME) protocol which allows valida
 <p id="section-1-2">Many operating systems and device vendors offer functionality enabling a device to generate a cryptographic attestation of their identity, such as:<a href="#section-1-2" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-1-3.1">
-          <a href="https://source.android.com/security/keystore/attestation">Android Key Attestation</a><a href="#section-1-3.1" class="pilcrow">¶</a>
+          <p id="section-1-3.1.1"><a href="https://source.android.com/security/keystore/attestation">Android Key Attestation</a><a href="#section-1-3.1.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="section-1-3.2">
-          <a href="https://developers.google.com/chrome/verified-access/overview">Chrome OS Verified Access</a><a href="#section-1-3.2" class="pilcrow">¶</a>
+          <p id="section-1-3.2.1"><a href="https://developers.google.com/chrome/verified-access/overview">Chrome OS Verified Access</a><a href="#section-1-3.2.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="section-1-3.3">
-          <a href="https://trustedcomputinggroup.org/resource/trusted-platform-module-tpm-summary/">Trusted Platform Module</a><a href="#section-1-3.3" class="pilcrow">¶</a>
+          <p id="section-1-3.3.1"><a href="https://trustedcomputinggroup.org/resource/trusted-platform-module-tpm-summary/">Trusted Platform Module</a><a href="#section-1-3.3.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
 <p id="section-1-4">Using ACME and device attestation to issue client certificates for enterprise PKI is anticipated to be the most common use case. The following variances to the ACME specification are described in this document:<a href="#section-1-4" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-1-5.1">Addition of <code>permanent-identifier</code> <span>[<a href="#RFC4043" class="cite xref">RFC4043</a>]</span> and <code>hardware-module</code> <span>[<a href="#RFC4108" class="cite xref">RFC4108</a>]</span> identifier types.<a href="#section-1-5.1" class="pilcrow">¶</a>
+<li class="normal" id="section-1-5.1">
+          <p id="section-1-5.1.1">Addition of <code>permanent-identifier</code> <span>[<a href="#RFC4043" class="cite xref">RFC4043</a>]</span> and <code>hardware-module</code> <span>[<a href="#RFC4108" class="cite xref">RFC4108</a>]</span> identifier types.<a href="#section-1-5.1.1" class="pilcrow">¶</a></p>
 </li>
-        <li class="normal" id="section-1-5.2">Addition of the <code>device-attest-01</code> challenge type to prove control of the <code>permanent-identifier</code> and <code>hardware-module</code> identifier types.<a href="#section-1-5.2" class="pilcrow">¶</a>
+        <li class="normal" id="section-1-5.2">
+          <p id="section-1-5.2.1">Addition of the <code>device-attest-01</code> challenge type to prove control of the <code>permanent-identifier</code> and <code>hardware-module</code> identifier types.<a href="#section-1-5.2.1" class="pilcrow">¶</a></p>
 </li>
-        <li class="normal" id="section-1-5.3">The challenge response payload contains a serialized WebAuthn attestation statement format instead of an empty JSON object (<code>{}</code>).<a href="#section-1-5.3" class="pilcrow">¶</a>
+        <li class="normal" id="section-1-5.3">
+          <p id="section-1-5.3.1">The challenge response payload contains a serialized WebAuthn attestation statement format instead of an empty JSON object (<code>{}</code>).<a href="#section-1-5.3.1" class="pilcrow">¶</a></p>
 </li>
-        <li class="normal" id="section-1-5.4">Accounts and external account binding being used as a mechanism to pre-authenticate requests to an enterprise CA.<a href="#section-1-5.4" class="pilcrow">¶</a>
+        <li class="normal" id="section-1-5.4">
+          <p id="section-1-5.4.1">Accounts and external account binding being used as a mechanism to pre-authenticate requests to an enterprise CA.<a href="#section-1-5.4.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
 <p id="section-1-6">This document does not specify the attestation verification procedures. Section 13 of <span>[<a href="#WebAuthn" class="cite xref">WebAuthn</a>]</span> gives some guidance, however verification procedures are complex and may require changes to address future security issues.<a href="#section-1-6" class="pilcrow">¶</a></p>
@@ -1294,23 +1276,27 @@ additional information on randomness requirements.<a href="#section-5-3.4.1" cla
 }
 </pre><a href="#section-5-4" class="pilcrow">¶</a>
 </div>
-<p id="section-5-5">A client fulfills this challenge by constructing a key authorization (<span>[<a href="#RFC4086" class="cite xref">RFC4086</a>]</span> Section 8.1)
+<p id="section-5-5">A client fulfills this challenge by constructing a key authorization (<span><a href="https://rfc-editor.org/rfc/rfc8555#section-8.1" class="relref">Section 8.1</a> of [<a href="#RFC8555" class="cite xref">RFC8555</a>]</span>)
  from the "token" value provided in the challenge and the client's
  account key. The client then generates a WebAuthn attestation object using the key authorization as the challenge.<a href="#section-5-5" class="pilcrow">¶</a></p>
 <p id="section-5-6">This specification borrows the WebAuthn <em>attestation object</em> representation as described in Section 6.5.4 of <span>[<a href="#WebAuthn" class="cite xref">WebAuthn</a>]</span> for encapsulating attestation formats, but with these modifications:<a href="#section-5-6" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-5-7.1">The key authorization is used to form <em>attToBeSigned</em>. This replaces the concatenation of <em>authenticatorData</em> and <em>clientDataHash</em>. <em>attToBeSigned</em> is hashed using an algorithm specified by the attestation format.<a href="#section-5-7.1" class="pilcrow">¶</a>
+<li class="normal" id="section-5-7.1">
+          <p id="section-5-7.1.1">The key authorization is used to form <em>attToBeSigned</em>. This replaces the concatenation of <em>authenticatorData</em> and <em>clientDataHash</em>. <em>attToBeSigned</em> is hashed using an algorithm specified by the attestation format.<a href="#section-5-7.1.1" class="pilcrow">¶</a></p>
 </li>
-        <li class="normal" id="section-5-7.2">The <em>authData</em> field is unused and <span class="bcp14">SHOULD</span> be omitted.<a href="#section-5-7.2" class="pilcrow">¶</a>
+        <li class="normal" id="section-5-7.2">
+          <p id="section-5-7.2.1">The <em>authData</em> field is unused and <span class="bcp14">SHOULD</span> be omitted.<a href="#section-5-7.2.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
 <p id="section-5-8">A client responds with the response object containing the WebAuthn attestation object in the "attObj" field to acknowledge that the challenge can be validated by the server.<a href="#section-5-8" class="pilcrow">¶</a></p>
 <p id="section-5-9">On receiving a response, the server constructs and stores the key authorization from the challenge's "token" value and the current client account key.<a href="#section-5-9" class="pilcrow">¶</a></p>
 <p id="section-5-10">To validate a device attestation challenge, the server performs the following steps:<a href="#section-5-10" class="pilcrow">¶</a></p>
 <ol start="1" type="1" class="normal type-1" id="section-5-11">
-<li id="section-5-11.1">Perform the verification procedures described in Section 6 of <span>[<a href="#WebAuthn" class="cite xref">WebAuthn</a>]</span>.<a href="#section-5-11.1" class="pilcrow">¶</a>
+<li id="section-5-11.1">
+          <p id="section-5-11.1.1">Perform the verification procedures described in Section 6 of <span>[<a href="#WebAuthn" class="cite xref">WebAuthn</a>]</span>.<a href="#section-5-11.1.1" class="pilcrow">¶</a></p>
 </li>
-        <li id="section-5-11.2">Verify that key authorization conveyed by <em>attToBeSigned</em> matches the key authorization stored by the server.<a href="#section-5-11.2" class="pilcrow">¶</a>
+        <li id="section-5-11.2">
+          <p id="section-5-11.2.1">Verify that key authorization conveyed by <em>attToBeSigned</em> matches the key authorization stored by the server.<a href="#section-5-11.2.1" class="pilcrow">¶</a></p>
 </li>
       </ol>
 <div class="alignLeft art-text artwork" id="section-5-12">
@@ -1433,9 +1419,11 @@ Content-Type: application/jose+json
         </h3>
 <p id="section-7.4-1"><span><a href="https://rfc-editor.org/rfc/rfc8809#section-2.1" class="relref">Section 2.1</a> of [<a href="#RFC8809" class="cite xref">RFC8809</a>]</span> describes registration of new attestation statement format types used when authenticating users via <span>[<a href="#WebAuthn" class="cite xref">WebAuthn</a>]</span>. This specification reuses the same format, but, because the context for use is different, a different registry is required. This section defines IANA registries for W3C Web Authentication (WebAuthn) attestation statement format identifiers and extension identifiers used in the context of a certificate request. This specification establishes two registries:<a href="#section-7.4-1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-7.4-2.1">the "WebAuthn Attestation Statement Format Identifiers for Certificate Request Protocols" registry<a href="#section-7.4-2.1" class="pilcrow">¶</a>
+<li class="normal" id="section-7.4-2.1">
+            <p id="section-7.4-2.1.1">the "WebAuthn Attestation Statement Format Identifiers for Certificate Request Protocols" registry<a href="#section-7.4-2.1.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-7.4-2.2">the "WebAuthn Extension Identifiers for Certificate Request Protocols" registry<a href="#section-7.4-2.2" class="pilcrow">¶</a>
+          <li class="normal" id="section-7.4-2.2">
+            <p id="section-7.4-2.2.1">the "WebAuthn Extension Identifiers for Certificate Request Protocols" registry<a href="#section-7.4-2.2.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 <p id="section-7.4-3">Any additional processes established by the expert(s) after the publication of this document will be recorded on the registry web page at the discretion of the expert(s), who may differ from the experts associated with the registry established by <span>[<a href="#RFC8809" class="cite xref">RFC8809</a>]</span>.<a href="#section-7.4-3" class="pilcrow">¶</a></p>
@@ -1460,35 +1448,40 @@ Content-Type: application/jose+json
 <li class="normal" id="section-7.4.1.1-4.1">
                 <p id="section-7.4.1.1-4.1.1">WebAuthn Attestation Statement Format Identifier:<a href="#section-7.4.1.1-4.1.1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-7.4.1.1-4.1.2.1">An identifier meeting the requirements given in <a href="#webauthn-attestation-statement-format-identifiers-for-certificate-request-protocols" class="auto internal xref">Section 7.4.1</a>.<a href="#section-7.4.1.1-4.1.2.1" class="pilcrow">¶</a>
+<li class="normal" id="section-7.4.1.1-4.1.2.1">
+                    <p id="section-7.4.1.1-4.1.2.1.1">An identifier meeting the requirements given in <a href="#webauthn-attestation-statement-format-identifiers-for-certificate-request-protocols" class="auto internal xref">Section 7.4.1</a>.<a href="#section-7.4.1.1-4.1.2.1.1" class="pilcrow">¶</a></p>
 </li>
                 </ul>
 </li>
               <li class="normal" id="section-7.4.1.1-4.2">
                 <p id="section-7.4.1.1-4.2.1">Description:<a href="#section-7.4.1.1-4.2.1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-7.4.1.1-4.2.2.1">A relatively short description of the attestation format.<a href="#section-7.4.1.1-4.2.2.1" class="pilcrow">¶</a>
+<li class="normal" id="section-7.4.1.1-4.2.2.1">
+                    <p id="section-7.4.1.1-4.2.2.1.1">A relatively short description of the attestation format.<a href="#section-7.4.1.1-4.2.2.1.1" class="pilcrow">¶</a></p>
 </li>
                 </ul>
 </li>
               <li class="normal" id="section-7.4.1.1-4.3">
                 <p id="section-7.4.1.1-4.3.1">Specification Document(s):<a href="#section-7.4.1.1-4.3.1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-7.4.1.1-4.3.2.1">Reference to the document or documents that specify the attestation statement format.<a href="#section-7.4.1.1-4.3.2.1" class="pilcrow">¶</a>
+<li class="normal" id="section-7.4.1.1-4.3.2.1">
+                    <p id="section-7.4.1.1-4.3.2.1.1">Reference to the document or documents that specify the attestation statement format.<a href="#section-7.4.1.1-4.3.2.1.1" class="pilcrow">¶</a></p>
 </li>
                 </ul>
 </li>
               <li class="normal" id="section-7.4.1.1-4.4">
                 <p id="section-7.4.1.1-4.4.1">Change Controller:<a href="#section-7.4.1.1-4.4.1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-7.4.1.1-4.4.2.1">For Standards Track RFCs, list "IETF".  For others, give the name of the responsible party.  Other details (e.g., postal address, email address, home page URI) may also be included.<a href="#section-7.4.1.1-4.4.2.1" class="pilcrow">¶</a>
+<li class="normal" id="section-7.4.1.1-4.4.2.1">
+                    <p id="section-7.4.1.1-4.4.2.1.1">For Standards Track RFCs, list "IETF".  For others, give the name of the responsible party.  Other details (e.g., postal address, email address, home page URI) may also be included.<a href="#section-7.4.1.1-4.4.2.1.1" class="pilcrow">¶</a></p>
 </li>
                 </ul>
 </li>
               <li class="normal" id="section-7.4.1.1-4.5">
                 <p id="section-7.4.1.1-4.5.1">Notes:<a href="#section-7.4.1.1-4.5.1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-7.4.1.1-4.5.2.1">[optional]<a href="#section-7.4.1.1-4.5.2.1" class="pilcrow">¶</a>
+<li class="normal" id="section-7.4.1.1-4.5.2.1">
+                    <p id="section-7.4.1.1-4.5.2.1.1">[optional]<a href="#section-7.4.1.1-4.5.2.1.1" class="pilcrow">¶</a></p>
 </li>
                 </ul>
 </li>
@@ -1517,7 +1510,8 @@ Content-Type: application/jose+json
 <li class="normal" id="section-7.4.1.3-2.1">
                 <p id="section-7.4.1.3-2.1.1">Change Controller:<a href="#section-7.4.1.3-2.1.1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-7.4.1.3-2.1.2.1">W3C Web Authentication Working Group (public-webauthn@w3.org)<a href="#section-7.4.1.3-2.1.2.1" class="pilcrow">¶</a>
+<li class="normal" id="section-7.4.1.3-2.1.2.1">
+                    <p id="section-7.4.1.3-2.1.2.1.1">W3C Web Authentication Working Group (public-webauthn@w3.org)<a href="#section-7.4.1.3-2.1.2.1.1" class="pilcrow">¶</a></p>
 </li>
                 </ul>
 </li>
@@ -1547,35 +1541,40 @@ Content-Type: application/jose+json
 <li class="normal" id="section-7.4.2.1-4.1">
                 <p id="section-7.4.2.1-4.1.1">WebAuthn Extension Identifier:<a href="#section-7.4.2.1-4.1.1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-7.4.2.1-4.1.2.1">An identifier meeting the requirements given in <a href="#webauthn-extension-identifiers-for-certificate-request-protocols" class="auto internal xref">Section 7.4.2</a>.<a href="#section-7.4.2.1-4.1.2.1" class="pilcrow">¶</a>
+<li class="normal" id="section-7.4.2.1-4.1.2.1">
+                    <p id="section-7.4.2.1-4.1.2.1.1">An identifier meeting the requirements given in <a href="#webauthn-extension-identifiers-for-certificate-request-protocols" class="auto internal xref">Section 7.4.2</a>.<a href="#section-7.4.2.1-4.1.2.1.1" class="pilcrow">¶</a></p>
 </li>
                 </ul>
 </li>
               <li class="normal" id="section-7.4.2.1-4.2">
                 <p id="section-7.4.2.1-4.2.1">Description:<a href="#section-7.4.2.1-4.2.1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-7.4.2.1-4.2.2.1">A relatively short description of the extension.<a href="#section-7.4.2.1-4.2.2.1" class="pilcrow">¶</a>
+<li class="normal" id="section-7.4.2.1-4.2.2.1">
+                    <p id="section-7.4.2.1-4.2.2.1.1">A relatively short description of the extension.<a href="#section-7.4.2.1-4.2.2.1.1" class="pilcrow">¶</a></p>
 </li>
                 </ul>
 </li>
               <li class="normal" id="section-7.4.2.1-4.3">
                 <p id="section-7.4.2.1-4.3.1">Specification Document(s):<a href="#section-7.4.2.1-4.3.1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-7.4.2.1-4.3.2.1">Reference to the document or documents that specify the extension.<a href="#section-7.4.2.1-4.3.2.1" class="pilcrow">¶</a>
+<li class="normal" id="section-7.4.2.1-4.3.2.1">
+                    <p id="section-7.4.2.1-4.3.2.1.1">Reference to the document or documents that specify the extension.<a href="#section-7.4.2.1-4.3.2.1.1" class="pilcrow">¶</a></p>
 </li>
                 </ul>
 </li>
               <li class="normal" id="section-7.4.2.1-4.4">
                 <p id="section-7.4.2.1-4.4.1">Change Controller:<a href="#section-7.4.2.1-4.4.1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-7.4.2.1-4.4.2.1">For Standards Track RFCs, list "IETF".  For others, give the name of the responsible party.  Other details (e.g., postal address, email address, home page URI) may also be included.<a href="#section-7.4.2.1-4.4.2.1" class="pilcrow">¶</a>
+<li class="normal" id="section-7.4.2.1-4.4.2.1">
+                    <p id="section-7.4.2.1-4.4.2.1.1">For Standards Track RFCs, list "IETF".  For others, give the name of the responsible party.  Other details (e.g., postal address, email address, home page URI) may also be included.<a href="#section-7.4.2.1-4.4.2.1.1" class="pilcrow">¶</a></p>
 </li>
                 </ul>
 </li>
               <li class="normal" id="section-7.4.2.1-4.5">
                 <p id="section-7.4.2.1-4.5.1">Notes:<a href="#section-7.4.2.1-4.5.1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-7.4.2.1-4.5.2.1">[optional]<a href="#section-7.4.2.1-4.5.2.1" class="pilcrow">¶</a>
+<li class="normal" id="section-7.4.2.1-4.5.2.1">
+                    <p id="section-7.4.2.1-4.5.2.1.1">[optional]<a href="#section-7.4.2.1-4.5.2.1.1" class="pilcrow">¶</a></p>
 </li>
                 </ul>
 </li>
@@ -1604,7 +1603,8 @@ Content-Type: application/jose+json
 <li class="normal" id="section-7.4.2.3-2.1">
                 <p id="section-7.4.2.3-2.1.1">Change Controller:<a href="#section-7.4.2.3-2.1.1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-7.4.2.3-2.1.2.1">W3C Web Authentication Working Group (public-webauthn@w3.org)<a href="#section-7.4.2.3-2.1.2.1" class="pilcrow">¶</a>
+<li class="normal" id="section-7.4.2.3-2.1.2.1">
+                    <p id="section-7.4.2.3-2.1.2.1.1">W3C Web Authentication Working Group (public-webauthn@w3.org)<a href="#section-7.4.2.3-2.1.2.1.1" class="pilcrow">¶</a></p>
 </li>
                 </ul>
 </li>
@@ -1617,6 +1617,7 @@ Content-Type: application/jose+json
 </div>
 </section>
 </div>
+<div id="sec-normative-references">
 <section id="section-8">
       <h2 id="name-normative-references">
 <a href="#section-8" class="section-number selfRef">8. </a><a href="#name-normative-references" class="section-name selfRef">Normative References</a>
@@ -1656,6 +1657,7 @@ Content-Type: application/jose+json
 <dd class="break"></dd>
 </dl>
 </section>
+</div>
 <div id="enterprise-pki">
 <section id="appendix-A">
       <h2 id="name-enterprise-pki">
