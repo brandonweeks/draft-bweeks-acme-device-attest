@@ -13,8 +13,7 @@ keyword: Internet-Draft
 author:
  -
     fullname: Brandon Weeks
-    organization: Google
-    email: bweeks@google.com
+    email: me@brandonweeks.com
 
 normative:
   RFC4108:
@@ -73,6 +72,8 @@ Using ACME and device attestation to issue client certificates for enterprise PK
 - Accounts and external account binding being used as a mechanism to pre-authenticate requests to an enterprise CA.
 
 This document does not specify the attestation verification procedures. Section 13 of {{WebAuthn}} gives some guidance, however verification procedures are complex and may require changes to address future security issues.
+
+Efforts are underway within the Remote ATtestation ProcedureS (RATS) working group to define a set of standard formats and protocols for attestation. An explict aim of this document is to support vendor specific formats and protocols that are widley deployed at the time it was authored. In the future, an ACME challenge type based on these standards SHOULD be used instead of `device-attest-01`.
 
 # Conventions and Definitions
 
