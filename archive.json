@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-07-24T00:28:03.200360+00:00",
+  "timestamp": "2025-09-14T00:26:04.743091+00:00",
   "repo": "brandonweeks/draft-bweeks-acme-device-attest",
   "labels": [
     {
@@ -408,6 +408,32 @@
           ]
         }
       ]
+    },
+    {
+      "number": 13,
+      "id": "PR_kwDOHJ3oBc6oFb6y",
+      "title": "Add additional authors to the draft",
+      "url": "https://github.com/brandonweeks/draft-bweeks-acme-device-attest/pull/13",
+      "state": "CLOSED",
+      "author": "svenska-primekey",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "Adding Ganesh and Sven as additional authors to the draft to help get this draft completed and published.",
+      "createdAt": "2025-09-11T17:16:01Z",
+      "updatedAt": "2025-09-11T18:11:38Z",
+      "baseRepository": "brandonweeks/draft-bweeks-acme-device-attest",
+      "baseRefName": "main",
+      "baseRefOid": "1b4667aabfbe550ec3a4f4e18b21a771c4f69242",
+      "headRepository": "ietf-wg-acme/draft-bweeks-acme-device-attest",
+      "headRefName": "add-additonal-authors",
+      "headRefOid": "126740159588ec81e30822135c39795df484e42c",
+      "closedAt": "2025-09-11T17:17:07Z",
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
     }
   ]
 }
